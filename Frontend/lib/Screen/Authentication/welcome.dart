@@ -5,6 +5,7 @@ import 'package:hotel_booking/Screen/Authentication/sign_up.dart';
 import 'package:hotel_booking/constant.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../../GlobalComponents/button_global.dart';
+import 'controller/googlesignin.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({Key? key}) : super(key: key);
@@ -98,14 +99,28 @@ class _WelcomeState extends State<Welcome> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 30.0, right: 30.0, top: 10.0, bottom: 10.0),
-                          child: Center(
-                            child: Image.asset(
-                              'images/google.png',
-                              height: 25.0,
-                              width: 25.0,
+                        child: InkWell(
+                          onTap: (() async {
+                            final user = await AuthService().signInWithGoogle(context);
+                            if (user != null) {
+                              print("SignIn Successful: ${user.displayName}");
+                              // Navigate to your app's home screen or dashboard
+                            } else {
+                              print("SignIn Failed");
+                            }
+                          }),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 30.0,
+                                right: 30.0,
+                                top: 10.0,
+                                bottom: 10.0),
+                            child: Center(
+                              child: Image.asset(
+                                'images/google.png',
+                                height: 25.0,
+                                width: 25.0,
+                              ),
                             ),
                           ),
                         ),
