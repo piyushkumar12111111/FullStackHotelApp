@@ -18,6 +18,33 @@ class _AddInfoState extends State<AddInfo> {
     'Others',
   ];
   String froms = 'Male';
+  String gender = 'Male';
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedData();
+  }
+
+  _loadSavedData() async {
+    final prefs = await SharedPreferences.getInstance();
+    nameController.text = prefs.getString('name') ?? '';
+    emailController.text = prefs.getString('email') ?? '';
+    dateController.text = prefs.getString('dob') ?? '';
+    gender = prefs.getString('gender') ?? 'Male';
+    setState(() {});
+  }
+
+  _saveInfo() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('name', nameController.text);
+    await prefs.setString('email', emailController.text);
+    await prefs.setString('dob', dateController.text);
+    await prefs.setString('gender', gender);
+  }
 
   DropdownButton<String> getGender() {
     List<DropdownMenuItem<String>> dropDownItems = [];
@@ -30,16 +57,17 @@ class _AddInfoState extends State<AddInfo> {
     }
     return DropdownButton(
       items: dropDownItems,
-      value: froms,
+      value: gender,
       onChanged: (value) {
         setState(() {
           froms = value!;
         });
+        _saveInfo();
       },
     );
   }
 
-  final dateController = TextEditingController();
+  //final dateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +91,12 @@ class _AddInfoState extends State<AddInfo> {
                 const SizedBox(height: 20.0),
                 AppTextField(
                   textFieldType: TextFieldType.NAME,
+                  onChanged: (value) => _saveInfo(),
                   decoration: kInputDecoration.copyWith(
+                    // onchange: (value) {
+                    //   sharedPreferences!.setString('name', value);
+                    // },
+
                     labelText: 'Full name',
                     hintText: 'Abdul Korim',
                     labelStyle: kTextStyle.copyWith(color: kTitleColor),
@@ -73,6 +106,7 @@ class _AddInfoState extends State<AddInfo> {
                 const SizedBox(height: 20.0),
                 AppTextField(
                   textFieldType: TextFieldType.EMAIL,
+                  onChanged: (value) => _saveInfo(),
                   decoration: kInputDecoration.copyWith(
                     labelText: 'Email',
                     hintText: 'abdulkorim@gmail.com',
@@ -91,6 +125,10 @@ class _AddInfoState extends State<AddInfo> {
                         firstDate: DateTime(1900),
                         lastDate: DateTime(2100));
                     dateController.text = date.toString().substring(0, 10);
+                    if (date != null) {
+                      dateController.text = date.toString().substring(0, 10);
+                      _saveInfo();
+                    }
                   },
                   controller: dateController,
                   decoration: InputDecoration(

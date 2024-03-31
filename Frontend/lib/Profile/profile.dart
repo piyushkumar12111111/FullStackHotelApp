@@ -20,11 +20,40 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   bool isOn = false;
 
+  SharedPreferences? sharedPreferences;
+
+  String name = 'Abdul Korim'; // Default name
+  String email = 'maantheme@gmail.com'; // Default email
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _loadUserData();
+  // }
+
+  // Future<void> _loadUserData() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   // Fetch and set the name and email from SharedPreferences
+  //   final loadedName = prefs.getString('name');
+  //   final loadedEmail = prefs.getString('email');
+
+  //   // If the fetched data is not null, update the state with it
+  //   if (loadedName != null && loadedEmail != null) {
+  //     setState(() {
+  //       name = loadedName;
+  //       email = loadedEmail;
+  //     });
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile',style: kTextStyle.copyWith(color: Colors.white),),
+        title: Text(
+          'Profile',
+          style: kTextStyle.copyWith(color: Colors.white),
+        ),
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: kMainColor,
         elevation: 0.0,
@@ -44,8 +73,10 @@ class _ProfileState extends State<Profile> {
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30.0), //! here we made it circular 
-                      topRight: Radius.circular(30.0), //! here we made it circular
+                      topLeft:
+                          Radius.circular(30.0), //! here we made it circular
+                      topRight:
+                          Radius.circular(30.0), //! here we made it circular
                     ),
                   ),
                   child: Column(
@@ -53,17 +84,19 @@ class _ProfileState extends State<Profile> {
                     children: [
                       const SizedBox(height: 60.0),
                       Text(
-                        'Abdul Korim',
+                        name,
                         style: kTextStyle.copyWith(
                             color: kTitleColor,
                             fontSize: 20.0,
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        'maantheme@gmail.com',
+                        email,
                         style: kTextStyle.copyWith(color: kGreyTextColor),
                       ),
-                      const SizedBox(height: 50,),
+                      const SizedBox(
+                        height: 50,
+                      ),
                       Container(
                         width: context.width(),
                         height: context.height(),
@@ -78,7 +111,11 @@ class _ProfileState extends State<Profile> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(left: 20.0, right: 20.0,top: 20.0,bottom: 10),
+                              padding: const EdgeInsets.only(
+                                  left: 20.0,
+                                  right: 20.0,
+                                  top: 20.0,
+                                  bottom: 10),
                               child: Text(
                                 'Account Setting',
                                 style: kTextStyle.copyWith(
@@ -101,8 +138,7 @@ class _ProfileState extends State<Profile> {
                               title: Text(
                                 'Edit Profile',
                                 style: kTextStyle.copyWith(
-                                    color: kGreyTextColor,
-                                    fontSize: 18.0),
+                                    color: kGreyTextColor, fontSize: 18.0),
                               ),
                             ),
                             ListTile(
@@ -121,8 +157,7 @@ class _ProfileState extends State<Profile> {
                               title: Text(
                                 'Payment',
                                 style: kTextStyle.copyWith(
-                                    color: kGreyTextColor,
-                                    fontSize: 18.0),
+                                    color: kGreyTextColor, fontSize: 18.0),
                               ),
                             ),
                             ListTile(
@@ -163,8 +198,7 @@ class _ProfileState extends State<Profile> {
                               title: Text(
                                 'Notifications',
                                 style: kTextStyle.copyWith(
-                                    color: kGreyTextColor,
-                                    fontSize: 18.0),
+                                    color: kGreyTextColor, fontSize: 18.0),
                               ),
                             ),
                             ListTile(
@@ -184,8 +218,7 @@ class _ProfileState extends State<Profile> {
                                   Text(
                                     'Language',
                                     style: kTextStyle.copyWith(
-                                        color: kGreyTextColor,
-                                        fontSize: 18.0),
+                                        color: kGreyTextColor, fontSize: 18.0),
                                   ),
                                   const Spacer(),
                                   Text(
@@ -197,14 +230,17 @@ class _ProfileState extends State<Profile> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 20.0, top: 25.0,bottom: 10.0),
+                              padding: const EdgeInsets.only(
+                                  left: 20.0, top: 25.0, bottom: 10.0),
                               child: Text(
                                 'Are You a Property Owner?',
-                                style: kTextStyle.copyWith(color: kTitleColor,fontSize: 18.0),
+                                style: kTextStyle.copyWith(
+                                    color: kTitleColor, fontSize: 18.0),
                               ),
                             ),
                             ListTile(
-                              onTap: () => const Profile().launch(context), //! here we have launched profile only
+                              onTap: () => const Profile().launch(
+                                  context), //! here we have launched profile only
                               leading: const CircleAvatar(
                                 backgroundColor: Color(0xFFD5E5FF),
                                 child: Icon(
@@ -219,15 +255,16 @@ class _ProfileState extends State<Profile> {
                               title: Text(
                                 'List your property',
                                 style: kTextStyle.copyWith(
-                                    color: kGreyTextColor,
-                                    fontSize: 18.0),
+                                    color: kGreyTextColor, fontSize: 18.0),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 20.0, top: 25.0,bottom: 10.0),
+                              padding: const EdgeInsets.only(
+                                  left: 20.0, top: 25.0, bottom: 10.0),
                               child: Text(
                                 'Support',
-                                style: kTextStyle.copyWith(color: kTitleColor,fontSize: 18.0),
+                                style: kTextStyle.copyWith(
+                                    color: kTitleColor, fontSize: 18.0),
                               ),
                             ),
                             ListTile(
@@ -246,8 +283,7 @@ class _ProfileState extends State<Profile> {
                               title: Text(
                                 'Message',
                                 style: kTextStyle.copyWith(
-                                    color: kGreyTextColor,
-                                    fontSize: 18.0),
+                                    color: kGreyTextColor, fontSize: 18.0),
                               ),
                             ),
                             ListTile(
@@ -266,8 +302,7 @@ class _ProfileState extends State<Profile> {
                               title: Text(
                                 'Give Us Feedback',
                                 style: kTextStyle.copyWith(
-                                    color: kGreyTextColor,
-                                    fontSize: 18.0),
+                                    color: kGreyTextColor, fontSize: 18.0),
                               ),
                             ),
                             ListTile(
@@ -286,8 +321,7 @@ class _ProfileState extends State<Profile> {
                               title: Text(
                                 'Terms of Service',
                                 style: kTextStyle.copyWith(
-                                    color: kGreyTextColor,
-                                    fontSize: 18.0),
+                                    color: kGreyTextColor, fontSize: 18.0),
                               ),
                             ),
                             ListTile(
@@ -306,8 +340,7 @@ class _ProfileState extends State<Profile> {
                               title: Text(
                                 'About Us',
                                 style: kTextStyle.copyWith(
-                                    color: kGreyTextColor,
-                                    fontSize: 18.0),
+                                    color: kGreyTextColor, fontSize: 18.0),
                               ),
                             ),
                             ListTile(
@@ -325,8 +358,7 @@ class _ProfileState extends State<Profile> {
                               title: Text(
                                 'Log Out',
                                 style: kTextStyle.copyWith(
-                                    color: kGreyTextColor,
-                                    fontSize: 18.0),
+                                    color: kGreyTextColor, fontSize: 18.0),
                               ),
                             ),
                           ],
@@ -335,15 +367,13 @@ class _ProfileState extends State<Profile> {
                     ],
                   ),
                 ),
-
               ],
             ),
             const Positioned(
               top: -00,
               child: CircleAvatar(
                 radius: 50.0,
-                backgroundImage:
-                AssetImage('images/profilepic.png'),
+                backgroundImage: AssetImage('images/profilepic.png'),
               ),
             ),
           ],

@@ -41,6 +41,11 @@ func main() {
 	//! Register the OTP checking handler
 	r.HandleFunc("/checkotp", handlers.CheckOTP).Methods("POST")
 
+
+
+	//! Forgot password route
+	r.HandleFunc("/forgot-password", handlers.ForgotPassword).Methods("POST")
+
 	log.Println("Server starting on port 9080...")
 
 	//!
