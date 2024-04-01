@@ -48,9 +48,13 @@ func main() {
 
 	//! hotel apis
 
-	r.HandleFunc("/hotels", handlers.ListHotels).Methods("GET")
+	r.HandleFunc("/hotels", handlers.WishListHotels).Methods("GET")
+	r.HandleFunc("/rechotels", handlers.RecommendHotels).Methods("GET")
+	r.HandleFunc("/pophotels", handlers.PopHotels).Methods("GET")
+	
 	r.HandleFunc("/hotel", handlers.AddHotel).Methods("POST")
 	r.HandleFunc("/hotel/{id}", handlers.DeleteHotel).Methods("DELETE")
+
 	// Start the server
 
 	//! profile routes
