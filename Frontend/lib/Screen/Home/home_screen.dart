@@ -1,7 +1,9 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hotel_booking/Notification/notification.dart';
 import 'package:hotel_booking/Screen/Home/Map/dhaka.dart';
+import 'package:hotel_booking/Screen/Home/controller/curosalcontroller.dart';
 import 'package:hotel_booking/Screen/Home/hotel.dart';
 import 'package:hotel_booking/Screen/Home/popular_hotel.dart';
 import 'package:hotel_booking/Screen/Home/Search/search.dart';
@@ -43,6 +45,14 @@ class _HomeScreenState extends State<HomeScreen> {
     'images/dnaj.png',
   ];
 
+  final List<String> imgList = [
+    'Frontend/images/banner4.png',
+    'Frontend/images/banner4.png',
+    'Frontend/images/banner4.png',
+
+    // Add more images URLs to this list
+  ];
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -79,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
-                    const Spacer(), //! 
+                    const Spacer(), //!
                     Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
@@ -138,12 +148,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontWeight: FontWeight.bold),
                   ),
                 ),
-                //! horizontal list 
+                //! horizontal list
                 HorizontalList(
                   spacing: 10.0,
                   itemCount: imageList.length,
                   itemBuilder: (_, i) {
-                    return Column(  //! ontap on itembuilder return 
+                    return Column(
+                      //! ontap on itembuilder return
                       children: [
                         Image.asset(imageList[i]),
                         const SizedBox(
@@ -156,28 +167,81 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ).onTap(
                       () {
-                        const Dhaka().launch(context);  //! here we have same launch for every screen
+                        const Dhaka().launch(
+                            context); //! here we have same launch for every screen
                       },
                     );
                   },
                 ),
                 const SizedBox(height: 10.0),
-                HorizontalList(
-                  padding: EdgeInsets.zero,
-                  spacing: 10.0,
-                  itemCount: 5,
-                  itemBuilder: (_, i) {
-                    return Image.asset('images/banner4.png').onTap(  //! only single banner displayed 
-                      () {
-                        setState(
-                          () {
-                            selected = categoryList[i];
-                          },
-                        );
-                      },
-                    );
-                  },
+                // HorizontalList(
+                //   padding: EdgeInsets.zero,
+                //   spacing: 10.0,
+                //   itemCount: 5,
+                //   itemBuilder: (_, i) {
+                //     return Image.asset('images/banner4.png').onTap(
+                //       //! only single banner displayed
+                //       () {
+                //         setState(
+                //           () {
+                //             selected = categoryList[i];
+                //           },
+                //         );
+                //       },
+                //     );
+                //   },
+                // ),
+
+                //! create a curosel slider which makes image move authomtically image coming from list
+                Center(
+                  child: CarouselSlider.builder(
+                    itemCount: imgList.length,
+                    options: CarouselOptions(
+                      autoPlay: true,
+                      enlargeCenterPage: true,
+                      // height: 200, // Fixed height
+                      aspectRatio: 16 / 9, // Aspect ratio for the width
+                      autoPlayInterval: Duration(seconds: 3),
+                      autoPlayAnimationDuration: Duration(milliseconds: 800),
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      pauseAutoPlayOnTouch: true,
+                      viewportFraction: 0.8,
+                      initialPage: 0,
+                      enableInfiniteScroll: true, // Enables the wrap-around
+                    ),
+                    itemBuilder: (BuildContext context, int itemIndex,
+                            int pageViewIndex) =>
+                        Stack(
+                      children: [
+                        Container(
+                          child: ClipRRect(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                            child: Image.asset(
+                              "images/banner4.png",
+                              fit: BoxFit.contain,
+                              width: 1000,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 70,
+                          left: 100,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Icon(Icons.circle, color: Colors.white, size: 10),
+                              Icon(Icons.circle, color: Colors.white, size: 10),
+                              Icon(Icons.circle, color: Colors.white, size: 10),
+                              Icon(Icons.circle, color: Colors.white, size: 10),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
+
                 const SizedBox(height: 20.0),
                 Text(
                   'Recomended for your next trip',
@@ -206,7 +270,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           Stack(
                             alignment: Alignment.topLeft,
                             children: [
-                              Image.asset('images/banner5.png'),  //! background image
+                              Image.asset(
+                                  'images/banner5.png'), //! background image
                               Padding(
                                 padding: const EdgeInsets.all(4.0),
                                 child: Row(
@@ -300,7 +365,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.bold,
                           fontSize: 18.0),
                     ),
-                    const Spacer(),  //! add max gap 
+                    const Spacer(), //! add max gap
                     Text(
                       'See More',
                       style: kTextStyle.copyWith(
@@ -313,9 +378,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 ListView.builder(
                   itemCount: 10,
-                  shrinkWrap: true,  //! shrinkwrap for listview.builder if not visible
+                  shrinkWrap:
+                      true, //! shrinkwrap for listview.builder if not visible
                   physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (_, index) { //! itembuilder here
+                  itemBuilder: (_, index) {
+                    //! itembuilder here
                     return Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Container(
@@ -329,7 +396,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             Stack(
                               alignment: Alignment.topRight,
                               children: [
-                                Image.asset('images/hotel.png'), //! background image
+                                Image.asset(
+                                    'images/hotel.png'), //! background image
                                 Padding(
                                   padding: const EdgeInsets.all(4.0),
                                   child: Container(

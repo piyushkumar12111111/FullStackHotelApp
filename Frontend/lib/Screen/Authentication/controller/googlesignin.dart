@@ -24,6 +24,14 @@ class AuthService {
 
         if (user != null) {
           // Navigate to the HomeScreen if the sign in was successful
+
+          // Use the user's name and email
+          String name = user.displayName ?? "No name available";
+          String email = user.email ?? "No email available";
+
+          // For demonstration, let's print these values
+          print("Name: $name");
+          print("Email: $email");
           Navigator.push(
               context,
               MaterialPageRoute(
