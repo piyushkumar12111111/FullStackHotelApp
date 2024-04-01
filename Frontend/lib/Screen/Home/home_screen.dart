@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:hotel_booking/Notification/notification.dart';
 import 'package:hotel_booking/Screen/Home/Map/dhaka.dart';
 import 'package:hotel_booking/Screen/Home/controller/curosalcontroller.dart';
@@ -53,7 +56,17 @@ class _HomeScreenState extends State<HomeScreen> {
     // Add more images URLs to this list
   ];
 
-  
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    Timer.periodic(Duration(seconds: 3), (timer) {
+      controller.changeIndex();
+    });
+    super.initState();
+  }
+
+  CurosalController controller = Get.put(CurosalController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -196,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 //! create a curosel slider which makes image move authomtically image coming from list
                 Center(
                   child: CarouselSlider.builder(
-                    itemCount: imgList.length,
+                    itemCount: controller.imgList.length,
                     options: CarouselOptions(
                       autoPlay: true,
                       enlargeCenterPage: true,
@@ -225,22 +238,38 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                        Positioned(
-                          bottom: 70,
-                          left: 100,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Icon(Icons.circle, color: Colors.white, size: 10),
-                              Icon(Icons.circle, color: Colors.white, size: 10),
-                              Icon(Icons.circle, color: Colors.white, size: 10),
-                              Icon(Icons.circle, color: Colors.white, size: 10),
-                            ],
-                          ),
-                        )
+                        Obx(() => Positioned(
+                              bottom: 70,
+                              left: 100,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Icon(Icons.circle,
+                                      color: controller.currentIndex == 0
+                                          ? Colors.black
+                                          : Colors.white,
+                                      size: 10),
+                                  Icon(Icons.circle,
+                                      color: controller.currentIndex == 1
+                                          ? Colors.black
+                                          : Colors.white,
+                                      size: 10),
+                                  Icon(Icons.circle,
+                                      color: controller.currentIndex == 2
+                                          ? Colors.black
+                                          : Colors.white,
+                                      size: 10),
+                                  Icon(Icons.circle,
+                                      color: controller.currentIndex == 4
+                                          ? Colors.black
+                                          : Colors.white,
+                                      size: 10),
+                                ],
+                              ),
+                            ))
                       ],
                     ),
-                  
                   ),
                 ),
 
@@ -260,7 +289,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (_, i) {
                     return Container(
                       padding: const EdgeInsets.all(10.0),
-                      width: context.width() / 1.5,
+                      width: MediaQuery.of(context).size.width / 1.5,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20.0),
                         color: Colors.white,

@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:hotel_booking/GlobalComponents/button_global.dart';
 import 'package:hotel_booking/Screen/Home/choose_room.dart';
 import 'package:hotel_booking/Screen/Home/controller/hotelController.dart';
@@ -59,8 +60,7 @@ class _HotelState extends State<Hotel> {
     'images/indoor3.png',
   ];
 
-
-
+  HotelController controller = Get.put(HotelController());
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,7 @@ class _HotelState extends State<Hotel> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(top: 10.0),
         child: Container(
-          width: context.width(),
+          width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -210,7 +210,7 @@ class _HotelState extends State<Hotel> {
           ),
         ),
       ),
-      //!
+      //! bottom bar ends
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -239,10 +239,7 @@ class _HotelState extends State<Hotel> {
                       ),
                       const Spacer(),
                       InkWell(
-
-                        onTap: (() {
-                          
-                        }),
+                        onTap: (() {}),
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30.0),
@@ -265,7 +262,7 @@ class _HotelState extends State<Hotel> {
                   bottom: -10,
                   child: Container(
                     padding: const EdgeInsets.all(20.0),
-                    width: context.width(),
+                    width: MediaQuery.of(context).size.width,
                     decoration: const BoxDecoration(
                       color: Color(0xFFFAFAFA),
                       borderRadius: BorderRadius.only(
@@ -348,7 +345,7 @@ class _HotelState extends State<Hotel> {
             //! stack part end's
             Container(
               padding: const EdgeInsets.all(20.0),
-              width: context.width(),
+              width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -593,7 +590,7 @@ class _HotelState extends State<Hotel> {
                       padding: const EdgeInsets.only(
                           left: 10.0, right: 10.0, top: 10.0),
                       child: Container(
-                        width: context.width(),
+                        width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30.0),
                           color: Colors.transparent,
