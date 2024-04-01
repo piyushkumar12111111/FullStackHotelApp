@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:hotel_booking/Screen/Authentication/sign_in.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../../GlobalComponents/button_global.dart';
 import '../../constant.dart';
+import 'package:http/http.dart' as http;
 
 class ForGotPassword extends StatefulWidget {
   const ForGotPassword({Key? key}) : super(key: key);
@@ -98,6 +101,35 @@ class _ForGotPasswordState extends State<ForGotPassword> {
 
   final dateController = TextEditingController();
 
+  //! api call for forgot password
+
+  Future<void> forgotPasswordPostApi(String email, BuildContext context) async {
+    // var request = http.MultipartRequest(
+
+    //     'POST', Uri.parse("http://192.168.85.111:9080/forgot-password"));
+    // request.fields.addAll({
+    //   'email': email,
+    // });
+    var response = await http.post(
+      Uri.parse('http://192.168.85.111:9080/forgot-password'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json.encode(<String, String>{
+        "email": email,
+      }),
+    );
+
+    var responseString = response.body;
+    var jsonData = jsonDecode(responseString);
+    if (response.statusCode == 200) {
+      showPopUp();
+    } else {
+      toast(jsonData['message']);
+    }
+  }
+
+  TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -124,6 +156,7 @@ class _ForGotPasswordState extends State<ForGotPassword> {
                 ),
                 const SizedBox(height: 20.0),
                 AppTextField(
+                  controller: emailController,
                   textFieldType: TextFieldType.EMAIL,
                   decoration: kInputDecoration.copyWith(
                     labelText: 'Email',
@@ -152,7 +185,10 @@ class _ForGotPasswordState extends State<ForGotPassword> {
                 ),
                 ButtonGlobal(
                   buttontext: 'Reset Password',
-                  onPressed: () => showPopUp(),
+                  onPressed: () {
+                    forgotPasswordPostApi(emailController.text, context);
+                    showPopUp();
+                  },
                   buttonDecoration:
                       kButtonDecoration.copyWith(color: kMainColor),
                 ),

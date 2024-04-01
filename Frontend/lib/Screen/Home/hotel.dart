@@ -1,8 +1,11 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:hotel_booking/GlobalComponents/button_global.dart';
 import 'package:hotel_booking/Screen/Home/choose_room.dart';
+import 'package:hotel_booking/Screen/Home/controller/hotelController.dart';
 import 'package:hotel_booking/Screen/Home/review.dart';
 import 'package:hotel_booking/constant.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -57,6 +60,8 @@ class _HotelState extends State<Hotel> {
     'images/indoor3.png',
   ];
 
+  HotelController controller = Get.put(HotelController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +70,7 @@ class _HotelState extends State<Hotel> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(top: 10.0),
         child: Container(
-          width: context.width(),
+          width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -205,41 +210,47 @@ class _HotelState extends State<Hotel> {
           ),
         ),
       ),
-      //!
+      //! bottom bar ends
       body: SingleChildScrollView(
         child: Column(
           children: [
             Stack(
               children: [
-                Image.asset('images/hotel2.png'),  //! this will come in background
+                Image.asset(
+                    'images/hotel2.png'), //! this will come in background
                 Padding(
                   padding:
                       const EdgeInsets.only(left: 20.0, top: 50, right: 20.0),
                   child: Row(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30.0),
-                          color: Colors.white.withOpacity(0.3),
+                      InkWell(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30.0),
+                            color: Colors.white.withOpacity(0.3),
+                          ),
+                          child: const Padding(
+                              padding: EdgeInsets.all(10.0),
+                              child: Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
+                              )),
                         ),
-                        child: const Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Icon(
-                              Icons.arrow_back,
-                              color: Colors.white,
-                            )),
                       ),
                       const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30.0),
-                          color: Colors.white.withOpacity(0.3),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Icon(
-                            FontAwesomeIcons.heart,
-                            color: Colors.white,
+                      InkWell(
+                        onTap: (() {}),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30.0),
+                            color: Colors.white.withOpacity(0.3),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Icon(
+                              FontAwesomeIcons.heart,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -251,7 +262,7 @@ class _HotelState extends State<Hotel> {
                   bottom: -10,
                   child: Container(
                     padding: const EdgeInsets.all(20.0),
-                    width: context.width(),
+                    width: MediaQuery.of(context).size.width,
                     decoration: const BoxDecoration(
                       color: Color(0xFFFAFAFA),
                       borderRadius: BorderRadius.only(
@@ -334,7 +345,7 @@ class _HotelState extends State<Hotel> {
             //! stack part end's
             Container(
               padding: const EdgeInsets.all(20.0),
-              width: context.width(),
+              width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -518,66 +529,68 @@ class _HotelState extends State<Hotel> {
                     ],
                   ),
                   const SizedBox(height: 10.0),
-                  Card(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                        color: Colors.white,
-                      ),
-                      child: ListTile(
-                        isThreeLine: true,
-                        leading: const CircleAvatar(
-                          backgroundImage: AssetImage('images/profile2.png'),
-                        ),
-                        title: Text(
-                          'Wade Warren',
-                          style: kTextStyle.copyWith(
-                              color: kTitleColor, fontSize: 18.0),
-                        ),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '15 Apr 2022',
-                              style: kTextStyle.copyWith(color: kGreyTextColor),
-                            ),
-                            const SizedBox(height: 5.0),
-                            Text(
-                              'Sagittis, convallis nibh gravida phas ellus sit  at erat faucibus erat.',
-                              style: kTextStyle.copyWith(
-                                color: kGreyTextColor,
-                              ),
-                              maxLines: 5,
-                            ),
-                          ],
-                        ),
-                        trailing: RichText(
-                          text: TextSpan(
-                            children: [
-                              WidgetSpan(
-                                child: RatingBarWidget(
-                                  onRatingChanged: null,
-                                  itemCount: 1,
-                                  size: 18.0,
-                                ),
-                              ),
-                              TextSpan(
-                                text: '4.9',
-                                style:
-                                    kTextStyle.copyWith(color: kGreyTextColor),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Card(
+                  //   child: Container(
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(20.0),
+                  //       color: Colors.white,
+                  //     ),
+                  //     child: ListTile(
+                  //       isThreeLine: true,
+                  //       leading: const CircleAvatar(
+                  //         backgroundImage: AssetImage('images/profile2.png'),
+                  //       ),
+                  //       title: Text(
+                  //         'Wade Warren',
+                  //         style: kTextStyle.copyWith(
+                  //             color: kTitleColor, fontSize: 18.0),
+                  //       ),
+                  //       subtitle: Column(
+                  //         crossAxisAlignment: CrossAxisAlignment.start,
+                  //         children: [
+                  //           Text(
+                  //             '15 Apr 2022',
+                  //             style: kTextStyle.copyWith(color: kGreyTextColor),
+                  //           ),
+                  //           const SizedBox(height: 5.0),
+                  //           Text(
+                  //             'Sagittis, convallis nibh gravida phas ellus sit  at erat faucibus erat.',
+                  //             style: kTextStyle.copyWith(
+                  //               color: kGreyTextColor,
+                  //             ),
+                  //             maxLines: 5,
+                  //           ),
+                  //         ],
+                  //       ),
+                  //       trailing: RichText(
+                  //         text: TextSpan(
+                  //           children: [
+                  //             WidgetSpan(
+                  //               child: RatingBarWidget(
+                  //                 onRatingChanged: null,
+                  //                 itemCount: 1,
+                  //                 size: 18.0,
+                  //               ),
+                  //             ),
+                  //             TextSpan(
+                  //               text: '4.9',
+                  //               style:
+                  //                   kTextStyle.copyWith(color: kGreyTextColor),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+
+                  CardCarousel(),
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.only(
                           left: 10.0, right: 10.0, top: 10.0),
                       child: Container(
-                        width: context.width(),
+                        width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30.0),
                           color: Colors.transparent,
@@ -588,11 +601,9 @@ class _HotelState extends State<Hotel> {
                             Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Text(
-                                
                                 'Write a Review',
                                 style: kTextStyle.copyWith(
                                     color: kTitleColor, fontSize: 18.0),
-                                    
                               ),
                             ).onTap(
                               () => const Review().launch(context),
@@ -606,6 +617,104 @@ class _HotelState extends State<Hotel> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class CardCarousel extends StatelessWidget {
+  final TextStyle kTextStyle = TextStyle(color: Colors.black);
+  final Color kTitleColor = Colors.black;
+  final Color kGreyTextColor = Colors.grey;
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> cardList = List.generate(10,
+        (index) => buildCardWidget(kTextStyle, kTitleColor, kGreyTextColor));
+
+    return CarouselSlider(
+      options: CarouselOptions(
+        autoPlay: true,
+        enlargeCenterPage: true,
+        height: 250, // Adjust the height if necessary
+
+        viewportFraction: 0.85,
+        aspectRatio: 2.0,
+        initialPage: 0,
+        enableInfiniteScroll: true,
+      ),
+      items: cardList.map((card) {
+        return Builder(
+          builder: (BuildContext context) {
+            return Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(horizontal: 5.0),
+              child: card,
+            );
+          },
+        );
+      }).toList(),
+    );
+  }
+
+  Widget buildCardWidget(
+      TextStyle kTextStyle, Color kTitleColor, Color kGreyTextColor) {
+    // Placeholder for the RatingBarWidget, replace it with your actual widget
+    Widget ratingPlaceholder = Container(
+      padding: const EdgeInsets.only(right: 4.0),
+      child: Icon(Icons.star, size: 18.0, color: Colors.amber),
+    );
+
+    return Card(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.0),
+          color: Colors.white,
+        ),
+        child: ListTile(
+          isThreeLine: true,
+          leading: const CircleAvatar(
+            backgroundImage: AssetImage('images/profile2.png'),
+          ),
+          title: Text(
+            'Wade Warren',
+            style: kTextStyle.copyWith(color: kTitleColor, fontSize: 18.0),
+          ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '15 Apr 2022',
+                style: kTextStyle.copyWith(color: kGreyTextColor),
+              ),
+              const SizedBox(height: 5.0),
+              Text(
+                'Sagittis, convallis nibh gravida phas ellus sit  at erat faucibus erat.',
+                style: kTextStyle.copyWith(
+                  color: kGreyTextColor,
+                ),
+                maxLines: 5,
+              ),
+            ],
+          ),
+          trailing: RichText(
+            text: TextSpan(
+              children: [
+                WidgetSpan(
+                  child: RatingBarWidget(
+                    onRatingChanged: null,
+                    itemCount: 1,
+                    size: 18.0,
+                  ),
+                ),
+                TextSpan(
+                  text: '4.9',
+                  style: kTextStyle.copyWith(color: kGreyTextColor),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

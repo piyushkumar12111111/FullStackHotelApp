@@ -48,7 +48,11 @@ func main() {
 
 	log.Println("Server starting on port 9080...")
 
-	//!
+	//! hotel apis 
+
+	r.HandleFunc("/hotels", handlers.ListHotels).Methods("GET")
+	r.HandleFunc("/hotel", handlers.AddHotel).Methods("POST")
+	r.HandleFunc("/hotel/{id}", handlers.DeleteHotel).Methods("DELETE")
 	// Start the server
 
 	log.Fatal(http.ListenAndServe(":9080", r))
