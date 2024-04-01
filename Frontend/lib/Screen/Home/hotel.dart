@@ -4,6 +4,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hotel_booking/GlobalComponents/button_global.dart';
 import 'package:hotel_booking/Screen/Home/choose_room.dart';
+import 'package:hotel_booking/Screen/Home/controller/hotelController.dart';
 import 'package:hotel_booking/Screen/Home/review.dart';
 import 'package:hotel_booking/constant.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -57,6 +58,9 @@ class _HotelState extends State<Hotel> {
     'images/indoor2.png',
     'images/indoor3.png',
   ];
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -234,16 +238,22 @@ class _HotelState extends State<Hotel> {
                         ),
                       ),
                       const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30.0),
-                          color: Colors.white.withOpacity(0.3),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Icon(
-                            FontAwesomeIcons.heart,
-                            color: Colors.white,
+                      InkWell(
+
+                        onTap: (() {
+                          
+                        }),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30.0),
+                            color: Colors.white.withOpacity(0.3),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Icon(
+                              FontAwesomeIcons.heart,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
