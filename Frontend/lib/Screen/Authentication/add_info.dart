@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:hotel_booking/Screen/Authentication/sign_in.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../../GlobalComponents/button_global.dart';
 import '../../constant.dart';
+
+import 'package:http/http.dart' as http;
 
 class AddInfo extends StatefulWidget {
   const AddInfo({Key? key}) : super(key: key);
@@ -68,6 +72,39 @@ class _AddInfoState extends State<AddInfo> {
   }
 
   //final dateController = TextEditingController();
+  //! http://192.168.85.111:9080/profile
+
+  //! post api for adding user info
+
+  Future<void> addProfilePostApi(String fullname, String email, String gender,
+      BuildContext context) async {
+    var response = await http.post(
+      Uri.parse('http://192.168.85.111:9080/profile'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json.encode(<String, String>{
+        "name": fullname,
+        "email": email,
+        "gender": gender,
+      }),
+    );
+
+    var responseString = response.body;
+    var jsonData = jsonDecode(responseString);
+    if (response.statusCode == 200) {
+      print(jsonData);
+      print("Response status code is" + response.statusCode.toString());
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => SignIn()),
+      );
+    } else {
+      print("Response status code is" + response.statusCode.toString());
+      toast("There is Error" + jsonData['message']);
+      print(jsonData['message']);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,7 +203,10 @@ class _AddInfoState extends State<AddInfo> {
                 ButtonGlobal(
                   buttontext: 'Save Info',
                   onPressed: () {
-                    const SignIn().launch(context);
+                    // addProfilePostApi(emailController.text, context);
+                    addProfilePostApi(nameController.text, emailController.text,
+                        gender, context);
+                    // const SignIn().launch(context);
                   },
                   buttonDecoration:
                       kButtonDecoration.copyWith(color: kMainColor),

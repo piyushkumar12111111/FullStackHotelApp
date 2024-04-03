@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hotel_booking/Screen/Authentication/sign_in.dart';
 import 'package:hotel_booking/Screen/Authentication/sign_up.dart';
+import 'package:hotel_booking/Screen/Home/home.dart';
 import 'package:hotel_booking/constant.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:vibration/vibration.dart';
 import '../../GlobalComponents/button_global.dart';
+import 'controller/googlesignin.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({Key? key}) : super(key: key);
@@ -70,21 +73,37 @@ class _WelcomeState extends State<Welcome> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Card(
-                        elevation: 0.0,
-                        color: const Color(0xFF3B5998),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.only(
-                              left: 30.0, right: 30.0, top: 10.0, bottom: 10.0),
-                          child: Center(
-                            child: Icon(
-                              FontAwesomeIcons.facebookF,
-                              color: Colors.white,
+                    InkWell(
+                      onTap: () async {
+                        bool? canVibrate = await Vibration.hasVibrator();
+                        if (canVibrate == true) {
+                          Vibration.vibrate(duration: 200);
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Home()),
+                          );
+                        }
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Card(
+                          elevation: 0.0,
+                          color: const Color(0xFF3B5998),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.only(
+                                left: 30.0,
+                                right: 30.0,
+                                top: 10.0,
+                                bottom: 10.0),
+                            child: Center(
+                              child: Icon(
+                                FontAwesomeIcons.facebookF,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
@@ -98,34 +117,65 @@ class _WelcomeState extends State<Welcome> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 30.0, right: 30.0, top: 10.0, bottom: 10.0),
-                          child: Center(
-                            child: Image.asset(
-                              'images/google.png',
-                              height: 25.0,
-                              width: 25.0,
+                        child: InkWell(
+                          onTap: (() async {
+                            final user =
+                                await AuthService().signInWithGoogle(context);
+                            if (user != null) {
+                              print("SignIn Successful: ${user.displayName}");
+                              // Navigate to your app's home screen or dashboard
+                            } else {
+                              print("SignIn Failed");
+                            }
+                          }),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 30.0,
+                                right: 30.0,
+                                top: 10.0,
+                                bottom: 10.0),
+                            child: Center(
+                              child: Image.asset(
+                                'images/google.png',
+                                height: 25.0,
+                                width: 25.0,
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Card(
-                        elevation: 0.0,
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.only(
-                              left: 30.0, right: 30.0, top: 10.0, bottom: 10.0),
-                          child: Center(
-                            child: Icon(
-                              FontAwesomeIcons.apple,
-                              color: Color(0xFF412F2D),
+                    InkWell(
+                      onTap: () async {
+                        bool? canVibrate = await Vibration.hasVibrator();
+                        if (canVibrate == true) {
+                          Vibration.vibrate(duration: 200);
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Home()),
+                          );
+                        }
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Card(
+                          elevation: 0.0,
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.only(
+                                left: 30.0,
+                                right: 30.0,
+                                top: 10.0,
+                                bottom: 10.0),
+                            child: Center(
+                              child: Icon(
+                                FontAwesomeIcons.apple,
+                                color: Color(0xFF412F2D),
+                              ),
                             ),
                           ),
                         ),

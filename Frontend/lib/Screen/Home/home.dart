@@ -7,6 +7,7 @@ import 'package:hotel_booking/Screen/Home/booking_list.dart';
 import 'package:hotel_booking/Screen/Home/wish_list.dart';
 import '../../constant.dart';
 import 'home_screen.dart';
+import 'package:vibration/vibration.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
