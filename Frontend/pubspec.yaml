@@ -58,6 +58,7 @@ dependencies:
   firebase_auth: ^4.17.8
   google_sign_in: ^6.2.1
   vibration: ^1.8.4
+  scroll_to_top: ^0.0.5
 
 
 

@@ -216,127 +216,6 @@ class _ExploreTripsState extends State<ExploreTrips> {
                     color: kTitleColor, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10.0),
-              // Column(
-              //   children: [
-              //     ListView.builder(
-              //       itemCount: 10,
-              //       shrinkWrap: true,
-              //       physics: const NeverScrollableScrollPhysics(),
-              //       itemBuilder: (_, index) {
-              //         return Padding(
-              //           padding: const EdgeInsets.only(bottom: 10.0),
-              //           child: Container(
-              //             padding: const EdgeInsets.all(10.0),
-              //             width: context.width() / 1.5,
-              //             decoration: BoxDecoration(
-              //               borderRadius: BorderRadius.circular(20.0),
-              //               color: Colors.white,
-              //             ),
-              //             child: Column(
-              //               crossAxisAlignment: CrossAxisAlignment.start,
-              //               mainAxisSize: MainAxisSize.min,
-              //               children: [
-              //                 Stack(
-              //                   alignment: Alignment.topLeft,
-              //                   children: [
-              //                     Image.asset(
-              //                       'images/sea2.png',
-              //                       width: context.width(),
-              //                       fit: BoxFit.cover,
-              //                     ),
-              //                     Padding(
-              //                       padding: const EdgeInsets.all(4.0),
-              //                       child: Row(
-              //                         mainAxisSize: MainAxisSize.min,
-              //                         children: [
-              //                           Container(
-              //                             padding: const EdgeInsets.all(5.0),
-              //                             decoration: BoxDecoration(
-              //                               border:
-              //                                   Border.all(color: Colors.white),
-              //                               color:
-              //                                   Colors.white.withOpacity(0.3),
-              //                               borderRadius:
-              //                                   const BorderRadius.only(
-              //                                 topLeft: Radius.circular(10.0),
-              //                               ),
-              //                             ),
-              //                             child: Text(
-              //                               '\$99 per Night',
-              //                               style: kTextStyle.copyWith(
-              //                                   color: Colors.white,
-              //                                   fontSize: 18.0),
-              //                             ),
-              //                           ),
-              //                           const Spacer(),
-              //                           Container(
-              //                             alignment: Alignment.topRight,
-              //                             decoration: BoxDecoration(
-              //                               borderRadius:
-              //                                   BorderRadius.circular(30.0),
-              //                               border: Border.all(
-              //                                 color:
-              //                                     Colors.white.withOpacity(0.5),
-              //                               ),
-              //                               color:
-              //                                   Colors.white.withOpacity(0.3),
-              //                             ),
-              //                             child: const Padding(
-              //                               padding: EdgeInsets.all(5.0),
-              //                               child: Icon(
-              //                                 FontAwesomeIcons.heart,
-              //                                 size: 18.0,
-              //                                 color: Colors.white,
-              //                               ),
-              //                             ),
-              //                           ),
-              //                         ],
-              //                       ),
-              //                     ),
-              //                   ],
-              //                 ),
-              //                 const SizedBox(height: 10.0),
-              //                 Text(
-              //                   'Rio de Janeiro, Brazil',
-              //                   style: kTextStyle.copyWith(
-              //                       color: kTitleColor,
-              //                       fontSize: 18.0,
-              //                       fontWeight: FontWeight.bold),
-              //                 ),
-              //                 Row(
-              //                   children: [
-              //                     const Icon(
-              //                       Icons.location_on,
-              //                       color: Color(0xFFFF8748),
-              //                       size: 18.0,
-              //                     ),
-              //                     Text(
-              //                       '10,984 kilometres away',
-              //                       style: kTextStyle.copyWith(
-              //                         color: kGreyTextColor,
-              //                       ),
-              //                     ),
-              //                     const Spacer(),
-              //                     Container(
-              //                       decoration: BoxDecoration(
-              //                         borderRadius: BorderRadius.circular(30.0),
-              //                         color: kMainColor,
-              //                       ),
-              //                       child: Padding(
-              //                         padding: const EdgeInsets.all(10.0),
-              //                         child: Image.asset('images/arrow.png'),
-              //                       ),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ],
-              //             ),
-              //           ),
-              //         );
-              //       },
-              //     ),
-              //   ],
-              // ),
               FutureBuilder<List<dynamic>>(
                 future: popHotelListapi(),
                 builder: (BuildContext context,
@@ -430,12 +309,30 @@ class _ExploreTripsState extends State<ExploreTrips> {
                                       ],
                                     ),
                                     const SizedBox(height: 10.0),
-                                    Text(
-                                      hotels[index]['name'],
-                                      style: kTextStyle.copyWith(
-                                          color: kTitleColor,
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.bold),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          hotels[index]['name'],
+                                          style: kTextStyle.copyWith(
+                                              color: kTitleColor,
+                                              fontSize: 18.0,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          " , ",
+                                          style: kTextStyle.copyWith(
+                                              color: kTitleColor,
+                                              fontSize: 18.0,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          hotels[index]['place'],
+                                          style: kTextStyle.copyWith(
+                                              color: kTitleColor,
+                                              fontSize: 18.0,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
                                     ),
                                     Row(
                                       children: [

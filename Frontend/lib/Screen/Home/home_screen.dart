@@ -14,6 +14,7 @@ import 'package:hotel_booking/Screen/Home/Search/search.dart';
 import 'package:hotel_booking/constant.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'Search/Filter/filter.dart';
+import 'package:scroll_to_top/scroll_to_top.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -59,6 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
     // Add more images URLs to this list
   ];
 
+  ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -66,6 +69,14 @@ class _HomeScreenState extends State<HomeScreen> {
     Timer.periodic(Duration(seconds: 3), (timer) {
       controller.changeIndex();
     });
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        print('reached end');
+      }
+    });
+
     super.initState();
   }
 
@@ -203,7 +214,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ).onTap(
                       () {
-                        const Dhaka().launch(
+                        Dhaka(
+                          cityname: categoryList[i],
+                        ).launch(
                             context); //! here we have same launch for every screen
                       },
                     );
