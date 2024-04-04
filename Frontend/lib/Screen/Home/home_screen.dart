@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,8 @@ import 'package:hotel_booking/Screen/Home/Search/search.dart';
 import 'package:hotel_booking/constant.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'Search/Filter/filter.dart';
+
+import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -67,6 +70,25 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   CurosalController controller = Get.put(CurosalController());
+
+  //! calling post api for showing hotels
+
+  Future<List<dynamic>> getWishListApi() async {
+    var url = Uri.parse('http://192.168.85.111:9080/rechotels');
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      List<dynamic> hotels = json.decode(response.body);
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      return hotels;
+    } else {
+      // Handle error or return empty list
+      print('Request failed with status: ${response.statusCode}.');
+      return [];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -283,107 +305,240 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 10.0),
                 //! here recommend for your next trip
-                HorizontalList(
-                  padding: EdgeInsets.zero,
-                  itemCount: 10,
-                  itemBuilder: (_, i) {
-                    return Container(
-                      padding: const EdgeInsets.all(10.0),
-                      width: MediaQuery.of(context).size.width / 1.5,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                        color: Colors.white,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Stack(
-                            alignment: Alignment.topLeft,
-                            children: [
-                              Image.asset(
-                                  'images/banner5.png'), //! background image
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(5.0),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.white),
-                                        color: Colors.white.withOpacity(0.3),
-                                        borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(10.0),
+                // HorizontalList(
+                //   padding: EdgeInsets.zero,
+                //   itemCount: 10,
+                //   itemBuilder: (_, i) {
+                //     return Container(
+                //       padding: const EdgeInsets.all(10.0),
+                //       width: MediaQuery.of(context).size.width / 1.5,
+                //       decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.circular(20.0),
+                //         color: Colors.white,
+                //       ),
+                //       child: Column(
+                //         crossAxisAlignment: CrossAxisAlignment.start,
+                //         mainAxisSize: MainAxisSize.min,
+                //         children: [
+                //           Stack(
+                //             alignment: Alignment.topLeft,
+                //             children: [
+                //               Image.asset(
+                //                   'images/banner5.png'), //! background image
+                //               Padding(
+                //                 padding: const EdgeInsets.all(4.0),
+                //                 child: Row(
+                //                   children: [
+                //                     Container(
+                //                       padding: const EdgeInsets.all(5.0),
+                //                       decoration: BoxDecoration(
+                //                         border: Border.all(color: Colors.white),
+                //                         color: Colors.white.withOpacity(0.3),
+                //                         borderRadius: const BorderRadius.only(
+                //                           topLeft: Radius.circular(10.0),
+                //                         ),
+                //                       ),
+                //                       child: Text(
+                //                         '\$35 per Night',
+                //                         style: kTextStyle.copyWith(
+                //                             color: Colors.white,
+                //                             fontSize: 18.0),
+                //                       ),
+                //                     ),
+                //                     const Spacer(),
+                //                     Container(
+                //                       decoration: BoxDecoration(
+                //                         borderRadius:
+                //                             BorderRadius.circular(30.0),
+                //                         border: Border.all(color: Colors.white),
+                //                         color: Colors.white.withOpacity(0.3),
+                //                       ),
+                //                       child: const Padding(
+                //                         padding: EdgeInsets.all(5.0),
+                //                         child: Icon(
+                //                           FontAwesomeIcons.heart,
+                //                           size: 15.0,
+                //                           color: Colors.white,
+                //                         ),
+                //                       ),
+                //                     ),
+                //                   ],
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //           const SizedBox(height: 5.0),
+                //           Text(
+                //             'Pan Pacific Sonargaon Dhaka',
+                //             style: kTextStyle.copyWith(
+                //                 color: kTitleColor,
+                //                 fontSize: 18.0,
+                //                 fontWeight: FontWeight.bold),
+                //           ),
+                //           Row(
+                //             children: [
+                //               const Icon(
+                //                 Icons.location_on,
+                //                 color: Color(0xFFFF8748),
+                //                 size: 18.0,
+                //               ),
+                //               Text(
+                //                 '2,984 kilometres away',
+                //                 style: kTextStyle.copyWith(
+                //                   color: kGreyTextColor,
+                //                 ),
+                //               ),
+                //               const Spacer(),
+                //               Container(
+                //                 decoration: BoxDecoration(
+                //                   borderRadius: BorderRadius.circular(30.0),
+                //                   color: kMainColor,
+                //                 ),
+                //                 child: Padding(
+                //                   padding: const EdgeInsets.all(10.0),
+                //                   child: Image.asset('images/arrow.png'),
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //         ],
+                //       ),
+                //     ).onTap(
+                //       () => const Hotel().launch(context),
+                //     );
+                //   },
+                // ),
+
+                FutureBuilder<List<dynamic>>(
+                  future: getWishListApi(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<dynamic>> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      List<dynamic> hotels = snapshot.data ?? [];
+                      return ListView.builder(
+                        //scrollDirection: Axis.horizontal,
+                        itemCount: hotels.length,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (_, index) {
+                          var hotel = hotels[index];
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10.0),
+                            child: Container(
+                              padding: const EdgeInsets.all(10.0),
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20.0),
+                                color: Colors.white,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Stack(
+                                    alignment: Alignment.topLeft,
+                                    children: [
+                                      // Replace with your network image
+                                      Image.asset(
+                                        'images/banner5.png',
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                '${hotel['name']} - \$99 per Night',
+                                                style: kTextStyle.copyWith(
+                                                    color: Colors.white,
+                                                    fontSize: 18.0),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(30.0),
+                                                border: Border.all(
+                                                    color: Colors.white),
+                                                color: Colors.white
+                                                    .withOpacity(0.3),
+                                              ),
+                                              child: const Padding(
+                                                padding: EdgeInsets.all(5.0),
+                                                child: Icon(
+                                                  FontAwesomeIcons.solidHeart,
+                                                  size: 15.0,
+                                                  color: Color(0xFFFF8748),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      child: Text(
-                                        '\$35 per Night',
-                                        style: kTextStyle.copyWith(
-                                            color: Colors.white,
-                                            fontSize: 18.0),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 10.0),
+                                  Text(
+                                    hotel['name'],
+                                    style: kTextStyle.copyWith(
+                                        color: kTitleColor,
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(height: 4.0),
+                                  Row(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.location_on,
+                                            color: Color(0xFFFF8748),
+                                            size: 18.0,
+                                          ),
+                                          Text(
+                                            hotel['location'],
+                                            style: kTextStyle.copyWith(
+                                                color: kGreyTextColor),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    const Spacer(),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                        border: Border.all(color: Colors.white),
-                                        color: Colors.white.withOpacity(0.3),
-                                      ),
-                                      child: const Padding(
-                                        padding: EdgeInsets.all(5.0),
-                                        child: Icon(
-                                          FontAwesomeIcons.heart,
-                                          size: 15.0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                      Spacer(),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.star,
+                                            color: Color(0xFFFF8748),
+                                            size: 18.0,
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            hotel['rating'].toString(),
+                                            style: kTextStyle.copyWith(
+                                                color: kGreyTextColor),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 5.0),
-                          Text(
-                            'Pan Pacific Sonargaon Dhaka',
-                            style: kTextStyle.copyWith(
-                                color: kTitleColor,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.location_on,
-                                color: Color(0xFFFF8748),
-                                size: 18.0,
-                              ),
-                              Text(
-                                '2,984 kilometres away',
-                                style: kTextStyle.copyWith(
-                                  color: kGreyTextColor,
-                                ),
-                              ),
-                              const Spacer(),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  color: kMainColor,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Image.asset('images/arrow.png'),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ).onTap(
-                      () => const Hotel().launch(context),
-                    );
+                            ).onTap(
+                              () => const Hotel().launch(context),
+                            ),
+                          );
+                        },
+                      );
+                    }
                   },
                 ),
                 const SizedBox(height: 20.0),

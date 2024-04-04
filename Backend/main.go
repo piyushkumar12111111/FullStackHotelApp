@@ -57,6 +57,10 @@ func main() {
 
 	// Start the server
 
+	//! trip routes
+
+	r.HandleFunc("/places", handlers.GetPlaces).Methods("GET")
+
 	//! profile routes
 
 	r.HandleFunc("/profile", handlers.GetProfile).Methods("GET")
