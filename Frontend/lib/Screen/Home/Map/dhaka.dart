@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hotel_booking/constant.dart';
 import 'package:nb_utils/nb_utils.dart';
+import '../../loading/loading.dart';
 import '../hotel.dart';
 import 'package:http/http.dart' as http;
 
@@ -228,8 +229,23 @@ class _DhakaState extends State<Dhaka> {
                             AsyncSnapshot<List<dynamic>> snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return const Center(
-                                child: CircularProgressIndicator());
+                            return ListView.separated(
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: 4,
+                              shrinkWrap: true,
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return SizedBox(
+                                  height: 10,
+                                );
+                              },
+                              itemBuilder: (BuildContext context, int index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: ShimmerLoadingContainer(),
+                                );
+                              },
+                            );
                           } else if (snapshot.hasError) {
                             return Text('Error: ${snapshot.error}');
                           } else {
