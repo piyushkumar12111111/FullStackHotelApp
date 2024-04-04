@@ -17,6 +17,7 @@ import 'Search/Filter/filter.dart';
 import 'package:scroll_to_top/scroll_to_top.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -66,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
 
-    Timer.periodic(Duration(seconds: 3), (timer) {
+    Timer.periodic(Duration(seconds: 4), (timer) {
       controller.changeIndex();
     });
 
@@ -318,116 +319,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 10.0),
                 //! here recommend for your next trip
-                // HorizontalList(
-                //   padding: EdgeInsets.zero,
-                //   itemCount: 10,
-                //   itemBuilder: (_, i) {
-                //     return Container(
-                //       padding: const EdgeInsets.all(10.0),
-                //       width: MediaQuery.of(context).size.width / 1.5,
-                //       decoration: BoxDecoration(
-                //         borderRadius: BorderRadius.circular(20.0),
-                //         color: Colors.white,
-                //       ),
-                //       child: Column(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         mainAxisSize: MainAxisSize.min,
-                //         children: [
-                //           Stack(
-                //             alignment: Alignment.topLeft,
-                //             children: [
-                //               Image.asset(
-                //                   'images/banner5.png'), //! background image
-                //               Padding(
-                //                 padding: const EdgeInsets.all(4.0),
-                //                 child: Row(
-                //                   children: [
-                //                     Container(
-                //                       padding: const EdgeInsets.all(5.0),
-                //                       decoration: BoxDecoration(
-                //                         border: Border.all(color: Colors.white),
-                //                         color: Colors.white.withOpacity(0.3),
-                //                         borderRadius: const BorderRadius.only(
-                //                           topLeft: Radius.circular(10.0),
-                //                         ),
-                //                       ),
-                //                       child: Text(
-                //                         '\$35 per Night',
-                //                         style: kTextStyle.copyWith(
-                //                             color: Colors.white,
-                //                             fontSize: 18.0),
-                //                       ),
-                //                     ),
-                //                     const Spacer(),
-                //                     Container(
-                //                       decoration: BoxDecoration(
-                //                         borderRadius:
-                //                             BorderRadius.circular(30.0),
-                //                         border: Border.all(color: Colors.white),
-                //                         color: Colors.white.withOpacity(0.3),
-                //                       ),
-                //                       child: const Padding(
-                //                         padding: EdgeInsets.all(5.0),
-                //                         child: Icon(
-                //                           FontAwesomeIcons.heart,
-                //                           size: 15.0,
-                //                           color: Colors.white,
-                //                         ),
-                //                       ),
-                //                     ),
-                //                   ],
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //           const SizedBox(height: 5.0),
-                //           Text(
-                //             'Pan Pacific Sonargaon Dhaka',
-                //             style: kTextStyle.copyWith(
-                //                 color: kTitleColor,
-                //                 fontSize: 18.0,
-                //                 fontWeight: FontWeight.bold),
-                //           ),
-                //           Row(
-                //             children: [
-                //               const Icon(
-                //                 Icons.location_on,
-                //                 color: Color(0xFFFF8748),
-                //                 size: 18.0,
-                //               ),
-                //               Text(
-                //                 '2,984 kilometres away',
-                //                 style: kTextStyle.copyWith(
-                //                   color: kGreyTextColor,
-                //                 ),
-                //               ),
-                //               const Spacer(),
-                //               Container(
-                //                 decoration: BoxDecoration(
-                //                   borderRadius: BorderRadius.circular(30.0),
-                //                   color: kMainColor,
-                //                 ),
-                //                 child: Padding(
-                //                   padding: const EdgeInsets.all(10.0),
-                //                   child: Image.asset('images/arrow.png'),
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //         ],
-                //       ),
-                //     ).onTap(
-                //       () => const Hotel().launch(context),
-                //     );
-                //   },
-                // ),
 
                 FutureBuilder<List<dynamic>>(
                   future: getWishListApi(),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<dynamic>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
+                      return ListView.separated(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: 2,
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(height: 10.0);
+                        },
+                        itemBuilder: (BuildContext context, int index) {
+                          return ShimmerLoadingContainer();
+                        },
+                      );
                     } else if (snapshot.hasError) {
                       return Text('Error: ${snapshot.error}');
                     } else {
@@ -672,6 +580,41 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ShimmerLoadingContainer extends StatelessWidget {
+  final double width;
+  final double height;
+
+  const ShimmerLoadingContainer({
+    Key? key,
+    this.width = 500.0,
+    this.height = 200.0,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: Colors.grey[300],
+          borderRadius: BorderRadius.circular(30),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.grey.withOpacity(0.5),
+          //     spreadRadius: 5,
+          //     blurRadius: 7,
+          //     offset: Offset(0, 3),
+          //   ),
+          // ],
         ),
       ),
     );

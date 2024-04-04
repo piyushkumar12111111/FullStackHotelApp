@@ -7,6 +7,7 @@ import 'package:hotel_booking/constant.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:shimmer/shimmer.dart';
 import 'package:vibration/vibration.dart';
 
 class WishList extends StatefulWidget {
@@ -194,7 +195,19 @@ class _WishListState extends State<WishList> {
                 builder: (BuildContext context,
                     AsyncSnapshot<List<dynamic>> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return ListView.separated(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: 4,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(
+                          height: 10,
+                        );
+                      },
+                      itemBuilder: (BuildContext context, int index) {
+                        return ShimmerLoadingContainer();
+                      },
+                    );
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {
@@ -321,6 +334,41 @@ class _WishListState extends State<WishList> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ShimmerLoadingContainer extends StatelessWidget {
+  final double width;
+  final double height;
+
+  const ShimmerLoadingContainer({
+    Key? key,
+    this.width = 500.0,
+    this.height = 200.0,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: Colors.grey[300],
+          borderRadius: BorderRadius.circular(30),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.grey.withOpacity(0.5),
+          //     spreadRadius: 5,
+          //     blurRadius: 7,
+          //     offset: Offset(0, 3),
+          //   ),
+          // ],
         ),
       ),
     );
