@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:hotel_booking/Screen/Home/Trips/explore_trips.dart';
 import 'package:hotel_booking/constant.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:http/http.dart' as http;
 
 class Trips extends StatefulWidget {
   const Trips({Key? key}) : super(key: key);
@@ -11,6 +14,10 @@ class Trips extends StatefulWidget {
 }
 
 class _TripsState extends State<Trips> {
+//! http://192.168.85.111:9080/places
+
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

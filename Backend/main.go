@@ -60,6 +60,7 @@ func main() {
 	//! trip routes
 
 	r.HandleFunc("/places", handlers.GetPlaces).Methods("GET")
+	r.HandleFunc("/popularhotels", handlers.GetPopularHotels).Methods("GET")
 
 	//! profile routes
 
