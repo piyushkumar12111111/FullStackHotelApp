@@ -51,7 +51,7 @@ func main() {
 	r.HandleFunc("/hotels", handlers.WishListHotels).Methods("GET")
 	r.HandleFunc("/rechotels", handlers.RecommendHotels).Methods("GET")
 	r.HandleFunc("/pophotels", handlers.PopHotels).Methods("GET")
-	
+
 	r.HandleFunc("/hotel", handlers.AddHotel).Methods("POST")
 	r.HandleFunc("/hotel/{id}", handlers.DeleteHotel).Methods("DELETE")
 
@@ -62,7 +62,6 @@ func main() {
 	r.HandleFunc("/places", handlers.GetPlaces).Methods("GET")
 	r.HandleFunc("/popularhotels", handlers.GetPopularHotels).Methods("GET")
 
-
 	//! hotel by city
 	r.HandleFunc("/city/{city}", handlers.GetHotelsByCity).Methods("GET")
 
@@ -70,6 +69,11 @@ func main() {
 
 	r.HandleFunc("/profile", handlers.GetProfile).Methods("GET")
 	r.HandleFunc("/profile", handlers.SetProfile).Methods("POST")
+
+	//! booking apis
+
+	r.HandleFunc("/bookings", handlers.GetBookings).Methods("GET")
+	r.HandleFunc("/booking", handlers.CreateBooking).Methods("POST")
 
 	log.Fatal(http.ListenAndServe(":9080", r))
 	//log.Fatal(http.ListenAndServe(":8080", r))
