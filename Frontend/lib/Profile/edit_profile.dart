@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:hotel_booking/Screen/Home/home.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../../../constant.dart';
+import 'package:http/http.dart' as http;
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -41,6 +44,37 @@ class _EditProfileState extends State<EditProfile> {
 
   final dateController = TextEditingController();
 
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
+
+  //! post api for update profile
+  //! http://192.168.85.111:9080/profile
+
+  Future<void> profileUpdatepostApi(String name, String email, gender) async {
+    var url = Uri.parse('http://192.168.85.111:9080/profile');
+    var response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json.encode(
+          <String, String>{"name": name, "email": email, "gender": gender}),
+    );
+    if (response.statusCode == 200) {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Home()),
+      );
+    } else {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      toast("wrong data");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,27 +100,33 @@ class _EditProfileState extends State<EditProfile> {
           ),
           child: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: context.width(),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadiusDirectional.circular(30.0),
-                    color: kMainColor,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Center(
-                      child: Text(
-                        'Update',
-                        style: kTextStyle.copyWith(
-                            color: Colors.white, fontSize: 18.0),
+            child: InkWell(
+              onTap: () {
+                profileUpdatepostApi(
+                    nameController.text, emailController.text, "Male");
+              },
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: context.width(),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadiusDirectional.circular(30.0),
+                      color: kMainColor,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Center(
+                        child: Text(
+                          'Update',
+                          style: kTextStyle.copyWith(
+                              color: Colors.white, fontSize: 18.0),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -122,6 +162,7 @@ class _EditProfileState extends State<EditProfile> {
                             height: 70.0,
                           ),
                           AppTextField(
+                            controller: nameController,
                             textFieldType: TextFieldType.NAME,
                             decoration: kInputDecoration.copyWith(
                                 labelText: 'Full Name',
@@ -132,6 +173,7 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                           const SizedBox(height: 20.0),
                           AppTextField(
+                            controller: emailController,
                             textFieldType: TextFieldType.EMAIL,
                             decoration: kInputDecoration.copyWith(
                               labelText: 'Email Address*',
@@ -210,13 +252,15 @@ class _EditProfileState extends State<EditProfile> {
                     bottom: 3.0,
                     right: 20.0,
                     child: Container(
-                      padding: const EdgeInsets.all(4.0),
+                        padding: const EdgeInsets.all(4.0),
                         decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10.0),
-                          border: Border.all(color: kMainColor)
-                        ),
-                        child: const Icon(FeatherIcons.camera,size: 12.0,)),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.0),
+                            border: Border.all(color: kMainColor)),
+                        child: const Icon(
+                          FeatherIcons.camera,
+                          size: 12.0,
+                        )),
                   ),
                 ],
               ),
