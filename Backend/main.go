@@ -69,6 +69,11 @@ func main() {
 
 	r.HandleFunc("/profile", handlers.GetProfile).Methods("GET")
 	r.HandleFunc("/profile", handlers.SetProfile).Methods("POST")
+	
+	//! search hotels by name
+	r.HandleFunc("/search", handlers.SearchHotels).Methods("GET")
+
+	
 
 	//! booking apis
 
