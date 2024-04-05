@@ -6,6 +6,8 @@ import 'package:nb_utils/nb_utils.dart';
 import '../../constant.dart';
 import 'package:http/http.dart' as http;
 
+import '../loading/loading.dart';
+
 class BookingList extends StatefulWidget {
   const BookingList({Key? key}) : super(key: key);
 
@@ -237,7 +239,19 @@ class _BookingListState extends State<BookingList> {
               builder: (BuildContext context,
                   AsyncSnapshot<List<dynamic>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
+                  return ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: 4,
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(height: 10.0);
+                    },
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ShimmerLoadingContainer(),
+                      );
+                    },
+                  );
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {

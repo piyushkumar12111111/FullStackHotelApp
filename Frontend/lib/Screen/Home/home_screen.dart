@@ -249,7 +249,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     options: CarouselOptions(
                       autoPlay: true,
                       enlargeCenterPage: true,
-                      // height: 200, // Fixed height
+                      height: 150, // Fixed height
                       aspectRatio: 16 / 9, // Aspect ratio for the width
                       autoPlayInterval: Duration(seconds: 3),
                       autoPlayAnimationDuration: Duration(milliseconds: 800),
@@ -274,42 +274,42 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                        Obx(() => Positioned(
-                              bottom: 70,
-                              left: 100,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Icon(Icons.circle,
-                                      color: controller.currentIndex == 0
-                                          ? Colors.black
-                                          : Colors.white,
-                                      size: 10),
-                                  Icon(Icons.circle,
-                                      color: controller.currentIndex == 1
-                                          ? Colors.black
-                                          : Colors.white,
-                                      size: 10),
-                                  Icon(Icons.circle,
-                                      color: controller.currentIndex == 2
-                                          ? Colors.black
-                                          : Colors.white,
-                                      size: 10),
-                                  Icon(Icons.circle,
-                                      color: controller.currentIndex == 4
-                                          ? Colors.black
-                                          : Colors.white,
-                                      size: 10),
-                                ],
-                              ),
-                            ))
+                        // Obx(() => Positioned(
+                        //       bottom: 70,
+                        //       left: 100,
+                        //       child: Row(
+                        //         mainAxisAlignment:
+                        //             MainAxisAlignment.spaceEvenly,
+                        //         children: [
+                        //           Icon(Icons.circle,
+                        //               color: controller.currentIndex == 0
+                        //                   ? Colors.black
+                        //                   : Colors.white,
+                        //               size: 10),
+                        //           Icon(Icons.circle,
+                        //               color: controller.currentIndex == 1
+                        //                   ? Colors.black
+                        //                   : Colors.white,
+                        //               size: 10),
+                        //           Icon(Icons.circle,
+                        //               color: controller.currentIndex == 2
+                        //                   ? Colors.black
+                        //                   : Colors.white,
+                        //               size: 10),
+                        //           Icon(Icons.circle,
+                        //               color: controller.currentIndex == 4
+                        //                   ? Colors.black
+                        //                   : Colors.white,
+                        //               size: 10),
+                        //         ],
+                        //       ),
+                        //     ))
                       ],
                     ),
                   ),
                 ),
 
-                const SizedBox(height: 20.0),
+                // const SizedBox(height: 5.0),
                 Text(
                   'Recomended for your next trip',
                   style: kTextStyle.copyWith(
@@ -317,7 +317,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: 15.0),
                 //! here recommend for your next trip
 
                 FutureBuilder<List<dynamic>>(
