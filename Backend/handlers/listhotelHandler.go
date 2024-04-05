@@ -54,3 +54,33 @@ func PopHotels(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
     json.NewEncoder(w).Encode(popullarHotels)
 }
+
+//! handler for searching hotels by name
+
+func SearchHotels(w http.ResponseWriter, r *http.Request) {
+	log.Println("SearchHotels handler called")
+	w.Header().Set("Content-Type", "application/json")
+	var searchResults []models.Hotel
+	query := r.URL.Query().Get("name")
+	for _, hotel := range hotels {
+		if hotel.Name == query {
+			searchResults = append(searchResults, hotel)
+		}
+	}
+	json.NewEncoder(w).Encode(searchResults)
+}
+
+//! handler for searching hotels by location
+
+func SearchHotelsByLocation(w http.ResponseWriter, r *http.Request) {
+	log.Println("SearchHotelsByLocation handler called")
+	w.Header().Set("Content-Type", "application/json")
+	var searchResults []models.Hotel
+	query := r.URL.Query().Get("location")
+	for _, hotel := range hotels {
+		if hotel.Location == query {
+			searchResults = append(searchResults, hotel)
+		}
+	}
+	json.NewEncoder(w).Encode(searchResults)
+}

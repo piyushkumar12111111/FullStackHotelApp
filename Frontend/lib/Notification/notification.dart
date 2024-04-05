@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../../../constant.dart';
 import '../GlobalComponents/data_provider.dart';
 import '../GlobalComponents/lms_model.dart';
+import 'controller/notificationservice.dart';
 
 class Notificationlist extends StatefulWidget {
   const Notificationlist({Key? key}) : super(key: key);
@@ -15,6 +17,27 @@ class Notificationlist extends StatefulWidget {
 class _NotificationlistState extends State<Notificationlist> {
   List<LMSModel> listData = maanGetChatList(); //! here we have notification display list
   bool isChecked = true;
+
+
+  NotificationServices notificationServices = NotificationServices();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    notificationServices.requestNotificationPermission();
+    notificationServices.forgroundMessage();
+    notificationServices.firebaseInit(context);
+    notificationServices.setupInteractMessage(context);
+    notificationServices.isTokenRefresh();
+
+    notificationServices.getDeviceToken().then((value) {
+      if (kDebugMode) {
+        print('device token');
+        print(value);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

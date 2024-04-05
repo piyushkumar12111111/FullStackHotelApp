@@ -60,19 +60,28 @@ class _ProfileState extends State<Profile> {
 
   //! post api for fetching profile data
 
-  Future<void> getWishListApi() async {
-    print("getWishListApi called");
+  //! http://192.168.85.111:9080/profile
+
+  Future<Map<String, dynamic>> getWishListApi() async {
     var url = Uri.parse('http://192.168.85.111:9080/profile');
     var response = await http.get(url);
     if (response.statusCode == 200) {
-      // List<dynamic> profile = json.decode(response.body);
-      var datastore = json.decode(response.body);
-      print(datastore);
+      Map<String, dynamic> profile = json.decode(response.body);
+
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
+
+      // Update the state with the fetched data
+      setState(() {
+        name = profile['name'];
+        email = profile['email'];
+      });
+
+      return profile;
     } else {
       // Handle error or return empty list
       print('Request failed with status: ${response.statusCode}.');
+      return {};
     }
   }
 
