@@ -4,6 +4,8 @@ import 'package:hotel_booking/firebase_options.dart';
 import 'Screen/SplashScreen/splash_screen.dart';
 import 'package:get/get.dart';
 
+
+@pragma('vm:entry-point')
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
