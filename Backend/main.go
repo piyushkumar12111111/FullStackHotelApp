@@ -75,6 +75,8 @@ func main() {
 
 	
 
+	
+
 	//! booking apis
 
 	r.HandleFunc("/bookings", handlers.GetBookings).Methods("GET")
