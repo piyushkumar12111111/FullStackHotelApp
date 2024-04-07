@@ -75,10 +75,15 @@ func main() {
 
 	
 
+	
+
 	//! booking apis
 
 	r.HandleFunc("/bookings", handlers.GetBookings).Methods("GET")
 	r.HandleFunc("/booking", handlers.CreateBooking).Methods("POST")
+
+	//! live chat api
+	r.HandleFunc("/chat", handlers.NewChatHandler().HandleConnections).Methods("GET") 
 
 	log.Fatal(http.ListenAndServe(":9080", r))
 	//log.Fatal(http.ListenAndServe(":8080", r))
