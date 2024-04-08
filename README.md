@@ -8,7 +8,7 @@ A Hotel booking App with Modern Fatures And Secure Backend
 
 **Client:** Flutter, Getx, Velocityx
 
-**Server:** Golang, Docker,Gorilla Mux
+**Server:** Golang, Docker,Gorilla Mux, Web Sockets
 
 
 ## Installation
