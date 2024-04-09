@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Hotel Booking APP',
       theme: ThemeData(fontFamily: 'Display'),
-      home: const SplashScreen(),
+      home:  SplashScreen(),
     );
   }
 }

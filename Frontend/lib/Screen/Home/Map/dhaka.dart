@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hotel_booking/Livechat/view/charroom.dart';
 import 'package:hotel_booking/constant.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../../loading/loading.dart';
@@ -59,6 +60,13 @@ class _DhakaState extends State<Dhaka> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ChatRoom().launch(context);
+        },
+        child: const Icon(Icons.add),
+        backgroundColor: kMainColor,
+      ),
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
