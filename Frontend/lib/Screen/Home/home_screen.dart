@@ -86,6 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
   //! calling post api for showing hotels
 
   Future<List<dynamic>> getWishListApi() async {
+    
     var url = Uri.parse('http://192.168.85.111:9080/rechotels');
     var response = await http.get(url);
     if (response.statusCode == 200) {
@@ -100,7 +101,31 @@ class _HomeScreenState extends State<HomeScreen> {
       return [];
     }
   }
+   
+   String name = 'User';
+ 
+  Future<List<dynamic>> profileDataApi() async {
+    
+    var url = Uri.parse('http://192.168.85.111:9080/profile');
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      List<dynamic> profile = json.decode(response.body);
 
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      //! update name 
+      setState(() {
+        name = profile[0]['name'];
+      });
+      return profile;
+    } else {
+      // Handle error or return empty list
+      print('Request failed with status: ${response.statusCode}.');
+      return [];
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
     return SafeArea(
