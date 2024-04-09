@@ -149,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Hello, Korim',
+                            'Hello, Hemant',
                             style: kTextStyle.copyWith(color: kGreyTextColor),
                           ),
                           Text(
