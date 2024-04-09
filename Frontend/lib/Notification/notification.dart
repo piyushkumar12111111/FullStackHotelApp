@@ -116,7 +116,7 @@ class _NotificationlistState extends State<Notificationlist> {
                               fontSize: 18.0,
                               fontWeight: FontWeight.bold),
                         ),
-                        const Spacer(),
+                        Spacer(),
                         PopupMenuButton(
                           padding: EdgeInsets.zero,
                           itemBuilder: (BuildContext bc) => [
