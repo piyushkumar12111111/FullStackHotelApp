@@ -21,4 +21,6 @@ func (c *ChatHandler) HandleConnections(w http.ResponseWriter, r *http.Request) 
 
 func (c *ChatHandler) HandleMessages() {
     // Here you would handle incoming messages. This example doesn't implement it.
+
+    
 }

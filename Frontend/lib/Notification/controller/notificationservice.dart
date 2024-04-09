@@ -203,6 +203,22 @@ class NotificationServices {
     );
   }
 
+  //! Fetching notification coming from firebase
+  Future<void> getNotification() async {
+    await messaging.getInitialMessage();
+
+    //! print all the notification
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      if (kDebugMode) {
+        print('Got a message whilst in the foreground!');
+        print('Message data: ${message.data}');
+        if (message.notification != null) {
+          print('Message also contained a notification: ${message.notification}');
+        }
+      }
+    });
+  }
+
 
 }
 
