@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:hotel_booking/Chat/chat_list.dart';
@@ -9,6 +11,8 @@ import 'package:nb_utils/nb_utils.dart';
 import '../../constant.dart';
 import '../Notification/notification.dart';
 import '../Screen/Home/Payment/payment.dart';
+
+import 'package:http/http.dart' as http;
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -45,6 +49,41 @@ class _ProfileState extends State<Profile> {
   //     });
   //   }
   // }
+
+  @override
+  void initState() {
+    super.initState();
+    getWishListApi();
+  }
+
+  //! http://192.168.85.111:9080/profile
+
+  //! post api for fetching profile data
+
+  //! http://192.168.85.111:9080/profile
+
+  Future<Map<String, dynamic>> getWishListApi() async {
+    var url = Uri.parse('http://192.168.85.111:9080/profile');
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> profile = json.decode(response.body);
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      // Update the state with the fetched data
+      setState(() {
+        name = profile['name'];
+        email = profile['email'];
+      });
+
+      return profile;
+    } else {
+      // Handle error or return empty list
+      print('Request failed with status: ${response.statusCode}.');
+      return {};
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -7,6 +7,8 @@ import 'package:hotel_booking/constant.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:shimmer/shimmer.dart';
+import 'package:vibration/vibration.dart';
 
 class WishList extends StatefulWidget {
   const WishList({Key? key}) : super(key: key);
@@ -63,109 +65,124 @@ class _WishListState extends State<WishList> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (_, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
-                    child: Container(
-                      padding: const EdgeInsets.all(10.0),
-                      width: context.width() / 1.5,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                        color: Colors.white,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Stack(
-                            alignment: Alignment.topLeft,
-                            children: [
-                              Image.asset(
-                                'images/banner6.png',
-                                width: context.width(),
-                                fit: BoxFit.cover,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min, //!
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(5.0),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.white),
-                                        color: Colors.white.withOpacity(0.3),
-                                        borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(10.0),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        '\$99 per Night',
-                                        style: kTextStyle.copyWith(
-                                            color: Colors.white,
-                                            fontSize: 18.0),
-                                      ),
-                                    ),
-                                    const Spacer(), //!
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                        border: Border.all(color: Colors.white),
-                                        color: Colors.white.withOpacity(0.3),
-                                      ),
-                                      child: const Padding(
-                                        padding: EdgeInsets.all(5.0),
-                                        child: Icon(
-                                          FontAwesomeIcons.solidHeart,
-                                          size: 15.0,
-                                          color: Color(0xFFFF8748),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                  return InkWell(
+                    onTap: () async {
+                      bool? canVibrate = await Vibration.hasVibrator();
+                      if (canVibrate == true) {
+                        Vibration.vibrate();
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Hotel()),
+                        );
+                      }
+                    },
+                    child: Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: Container(
+                          padding: const EdgeInsets.all(10.0),
+                          width: context.width() / 1.5,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                            color: Colors.white,
                           ),
-                          const SizedBox(height: 10.0),
-                          Text(
-                            'Sandy Hill Beach, West Sonadia',
-                            style: kTextStyle.copyWith(
-                                color: kTitleColor,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Row(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(
-                                Icons.location_on,
-                                color: Color(0xFFFF8748),
-                                size: 18.0,
+                              Stack(
+                                alignment: Alignment.topLeft,
+                                children: [
+                                  Image.asset(
+                                    'images/banner6.png',
+                                    width: context.width(),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min, //!
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.all(5.0),
+                                          decoration: BoxDecoration(
+                                            border:
+                                                Border.all(color: Colors.white),
+                                            color:
+                                                Colors.white.withOpacity(0.3),
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topLeft: Radius.circular(10.0),
+                                            ),
+                                          ),
+                                          child: Text(
+                                            '\$99 per Night',
+                                            style: kTextStyle.copyWith(
+                                                color: Colors.white,
+                                                fontSize: 18.0),
+                                          ),
+                                        ),
+                                        const Spacer(), //!
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(30.0),
+                                            border:
+                                                Border.all(color: Colors.white),
+                                            color:
+                                                Colors.white.withOpacity(0.3),
+                                          ),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(5.0),
+                                            child: Icon(
+                                              FontAwesomeIcons.solidHeart,
+                                              size: 15.0,
+                                              color: Color(0xFFFF8748),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
+                              const SizedBox(height: 10.0),
                               Text(
-                                '2,984 kilometres away',
+                                'Sandy Hill Beach, West Sonadia',
                                 style: kTextStyle.copyWith(
-                                  color: kGreyTextColor,
-                                ),
+                                    color: kTitleColor,
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold),
                               ),
-                              const Spacer(),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  color: kMainColor,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Image.asset('images/arrow.png'),
-                                ),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.location_on,
+                                    color: Color(0xFFFF8748),
+                                    size: 18.0,
+                                  ),
+                                  Text(
+                                    '2,984 kilometres away',
+                                    style: kTextStyle.copyWith(
+                                      color: kGreyTextColor,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30.0),
+                                      color: kMainColor,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Image.asset('images/arrow.png'),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    ).onTap(
-                      () => const Hotel().launch(context),
-                    ),
+                        )),
                   );
                 },
               ),
@@ -178,7 +195,19 @@ class _WishListState extends State<WishList> {
                 builder: (BuildContext context,
                     AsyncSnapshot<List<dynamic>> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return ListView.separated(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: 4,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(
+                          height: 10,
+                        );
+                      },
+                      itemBuilder: (BuildContext context, int index) {
+                        return ShimmerLoadingContainer();
+                      },
+                    );
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {
@@ -305,6 +334,41 @@ class _WishListState extends State<WishList> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ShimmerLoadingContainer extends StatelessWidget {
+  final double width;
+  final double height;
+
+  const ShimmerLoadingContainer({
+    Key? key,
+    this.width = 500.0,
+    this.height = 200.0,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: Colors.grey[300],
+          borderRadius: BorderRadius.circular(30),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.grey.withOpacity(0.5),
+          //     spreadRadius: 5,
+          //     blurRadius: 7,
+          //     offset: Offset(0, 3),
+          //   ),
+          // ],
         ),
       ),
     );

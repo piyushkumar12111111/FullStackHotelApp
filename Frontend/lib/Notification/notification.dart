@@ -1,9 +1,15 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../../../constant.dart';
 import '../GlobalComponents/data_provider.dart';
 import '../GlobalComponents/lms_model.dart';
+import 'controller/notificationservice.dart';
+import 'package:async/async.dart';
 
 class Notificationlist extends StatefulWidget {
   const Notificationlist({Key? key}) : super(key: key);
@@ -15,6 +21,63 @@ class Notificationlist extends StatefulWidget {
 class _NotificationlistState extends State<Notificationlist> {
   List<LMSModel> listData = maanGetChatList(); //! here we have notification display list
   bool isChecked = true;
+  final ScrollController _scrollController = ScrollController();
+  double _scrollPosition = 0;
+
+
+  NotificationServices notificationServices = NotificationServices();
+
+  //! here we have notification display list
+
+  //! Fetching notification coming from firebase 
+
+  Future<void> getNotification() async {
+    await notificationServices.getNotification();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    notificationServices.requestNotificationPermission();
+    notificationServices.forgroundMessage();
+    notificationServices.firebaseInit(context);
+    notificationServices.setupInteractMessage(context);
+    notificationServices.isTokenRefresh();
+
+    notificationServices.getDeviceToken().then((value) {
+      if (kDebugMode) {
+        print('device token');
+        print(value);
+      }
+    });
+
+    _scrollController.addListener(() {
+      setState(() {
+        _scrollPosition = _scrollController.offset;
+      });
+    });
+    
+    Timer(const Duration(seconds: 4), () {
+      printScrollPosition();
+    });
+    getNotification();
+  }
+
+   //! printing scroll position
+
+   void printScrollPosition() {
+    if (kDebugMode) {
+      print('scroll position: $_scrollPosition');
+    }}
+
+ 
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +92,7 @@ class _NotificationlistState extends State<Notificationlist> {
               ),
             ),
             SingleChildScrollView(
+              controller: _scrollController,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -52,7 +116,7 @@ class _NotificationlistState extends State<Notificationlist> {
                               fontSize: 18.0,
                               fontWeight: FontWeight.bold),
                         ),
-                        const Spacer(),
+                        Spacer(),
                         PopupMenuButton(
                           padding: EdgeInsets.zero,
                           itemBuilder: (BuildContext bc) => [
@@ -120,11 +184,32 @@ class _NotificationlistState extends State<Notificationlist> {
                                   borderRadius: BorderRadius.circular(5.0),
                                 ),
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                printScrollPosition();
+                              },
                             );
                           },
                         ).toList(),
                       ),
+                      // ListView.builder(
+                        
+                      //   itemCount: listData.length,
+                      //   itemBuilder: (BuildContext context, int index) {
+                      //     return ListTile(
+                      //       title: Text(listData[index].title!),
+                      //       subtitle: Text(listData[index].subTitle!),
+                      //       leading: Image.network(listData[index].image!),
+                      //       trailing: Checkbox(
+                      //         value: isChecked,
+                      //         onChanged: (bool? value) {
+                      //           setState(() {
+                      //             isChecked = value!;
+                      //           });
+                      //         },
+                      //       ),
+                      //     );
+                      //   },
+                      // ),
                     ],
                   ),
                 ],
