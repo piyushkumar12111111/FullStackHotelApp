@@ -43,4 +43,6 @@ Install my-project
 - In App Purchase 
 - Razorpay Integration
 - Cloud messaging
+- Live Response
+- Fully Responsive
 
